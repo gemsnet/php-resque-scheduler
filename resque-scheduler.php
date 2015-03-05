@@ -23,23 +23,15 @@ if(!empty($REDIS_BACKEND)) {
 		Resque::setBackend($REDIS_BACKEND, $REDIS_BACKEND_DB);
 }
 
-// Set log level for resque-scheduler
-$logLevel = 0;
+$logLevel = false;
 $LOGGING = getenv('LOGGING');
 $VERBOSE = getenv('VERBOSE');
 $VVERBOSE = getenv('VVERBOSE');
 if(!empty($LOGGING) || !empty($VERBOSE)) {
-	$logLevel = ResqueScheduler_Worker::LOG_NORMAL;
+	$logLevel = true;
 }
 else if(!empty($VVERBOSE)) {
-	$logLevel = ResqueScheduler_Worker::LOG_VERBOSE;
-}
-
-// Check for jobs every $interval seconds
-$interval = 5;
-$INTERVAL = getenv('INTERVAL');
-if(!empty($INTERVAL)) {
-	$interval = $INTERVAL;
+	$logLevel = true;
 }
 
 // Load the user's application if one exists
@@ -52,14 +44,27 @@ if($APP_INCLUDE) {
 	require_once $APP_INCLUDE;
 }
 
+// See if the APP_INCLUDE containes a logger object,
+// If none exists, fallback to internal logger
+if (!isset($logger) || !is_object($logger)) {
+    $logger = new Resque_Log($logLevel);
+}
+
+// Check for jobs every $interval seconds
+$interval = 5;
+$INTERVAL = getenv('INTERVAL');
+if(!empty($INTERVAL)) {
+	$interval = $INTERVAL;
+}
+
 $PREFIX = getenv('PREFIX');
 if(!empty($PREFIX)) {
-    fwrite(STDOUT, '*** Prefix set to '.$PREFIX."\n");
+    $logger->log(Psr\Log\LogLevel::INFO, 'Prefix set to {prefix}', array('prefix' => $PREFIX));
     Resque_Redis::prefix($PREFIX);
 }
 
 $worker = new ResqueScheduler_Worker();
-$worker->logLevel = $logLevel;
+$worker->setLogger($logger);
 
 $PIDFILE = getenv('PIDFILE');
 if ($PIDFILE) {
@@ -67,5 +72,5 @@ if ($PIDFILE) {
 		die('Could not write PID information to ' . $PIDFILE);
 }
 
-fwrite(STDOUT, "*** Starting scheduler worker\n");
+$logger->log(Psr\Log\LogLevel::NOTICE, 'Starting scheduler worker');
 $worker->work($interval);

@@ -9,20 +9,24 @@
  */
 class ResqueScheduler_Worker
 {
-	const LOG_NONE = 0;
-	const LOG_NORMAL = 1;
-	const LOG_VERBOSE = 2;
-	
 	/**
-	 * @var int Current log level of this worker.
-	 */
-	public $logLevel = 0;
+	* @var LoggerInterface Logging object that impliments the PSR-3 LoggerInterface
+	*/
+	public $logger;
 	
 	/**
 	 * @var int Interval to sleep for between checking schedules.
 	 */
 	protected $interval = 5;
 	
+    /**
+     * Instantiate a new worker
+     */
+    public function __construct()
+    {
+        $this->logger = new Resque_Log();
+    }
+        
 	/**
 	* The primary loop for a worker.
 	*
@@ -73,7 +77,11 @@ class ResqueScheduler_Worker
 	{
 		$item = null;
 		while ($item = ResqueScheduler::nextItemForTimestamp($timestamp)) {
-			$this->log('queueing ' . $item['class'] . ' in ' . $item['queue'] .' [delayed]');
+			$this->logger->log(
+                    Psr\Log\LogLevel::NOTICE, 
+                    'Queueing {class} in {queue} [delayed]', 
+                    array('class' => $item['class'], 'queue' => $item['queue'])
+            );
 			
 			Resque_Event::trigger('beforeDelayedEnqueue', array(
 				'queue' => $item['queue'],
@@ -110,18 +118,13 @@ class ResqueScheduler_Worker
 		}
 	}
 	
-	/**
-	 * Output a given log message to STDOUT.
+    /**
+	 * Inject the logging object into the worker
 	 *
-	 * @param string $message Message to output.
+	 * @param Psr\Log\LoggerInterface $logger
 	 */
-	public function log($message)
+	public function setLogger(Psr\Log\LoggerInterface $logger)
 	{
-		if($this->logLevel == self::LOG_NORMAL) {
-			fwrite(STDOUT, "*** " . $message . "\n");
-		}
-		else if($this->logLevel == self::LOG_VERBOSE) {
-			fwrite(STDOUT, "** [" . strftime('%T %Y-%m-%d') . "] " . $message . "\n");
-		}
+		$this->logger = $logger;
 	}
 }

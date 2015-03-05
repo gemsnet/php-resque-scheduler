@@ -99,7 +99,7 @@ class ResqueScheduler_Worker
 	 */
 	protected function sleep()
 	{
-		sleep($this->interval);
+        usleep($this->interval * 1000000);
 	}
 	
 	/**

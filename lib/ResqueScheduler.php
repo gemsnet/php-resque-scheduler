@@ -11,7 +11,9 @@ class ResqueScheduler
 {
 	const VERSION = "1.2";
 	
-	/**
+    const DEFAULT_INTERVAL = 5;
+
+    /**
 	 * Enqueue a job in a given number of seconds from now.
 	 *
 	 * Identical to Resque::enqueue, however the first argument is the number

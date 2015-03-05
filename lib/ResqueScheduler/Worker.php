@@ -17,7 +17,7 @@ class ResqueScheduler_Worker
 	/**
 	 * @var int Interval to sleep for between checking schedules.
 	 */
-	protected $interval = 5;
+	protected $interval = null;
 	
 	/**
 	 * @var string The hostname of this worker.
@@ -55,11 +55,9 @@ class ResqueScheduler_Worker
 	*
 	* @param int $interval How often to check schedules.
 	*/
-	public function work($interval = null)
+	public function work($interval = ResqueScheduler::DEFAULT_INTERVAL)
 	{
-		if ($interval !== null) {
-			$this->interval = $interval;
-		}
+        $this->interval = $interval;
 
 		$this->updateProcLine('Starting');
 		

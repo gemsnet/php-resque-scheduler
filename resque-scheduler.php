@@ -72,5 +72,5 @@ if ($PIDFILE) {
 		die('Could not write PID information to ' . $PIDFILE);
 }
 
-$logger->log(Psr\Log\LogLevel::NOTICE, 'Starting scheduler worker');
+$logger->log(Psr\Log\LogLevel::NOTICE, 'Starting scheduler worker {worker}', array('worker' => $worker));
 $worker->work($interval);

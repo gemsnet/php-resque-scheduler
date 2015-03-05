@@ -19,12 +19,32 @@ class ResqueScheduler_Worker
 	 */
 	protected $interval = 5;
 	
+	/**
+	 * @var string The hostname of this worker.
+	 */
+	private $hostname;
+
+	/**
+	 * @var string String identifying this worker.
+	 */
+	private $id;
+
     /**
      * Instantiate a new worker
      */
     public function __construct()
     {
         $this->logger = new Resque_Log();
+
+        if(function_exists('gethostname')) {
+            $hostname = gethostname();
+        }
+        else {
+            $hostname = php_uname('n');
+        }
+        $this->hostname = $hostname;
+        
+        $this->id = $this->hostname . ':' . getmypid();
     }
         
 	/**
@@ -127,4 +147,15 @@ class ResqueScheduler_Worker
 	{
 		$this->logger = $logger;
 	}
+    
+	/**
+	 * Generate a string representation of this worker.
+	 *
+	 * @return string String identifier for this worker instance.
+	 */
+	public function __toString()
+	{
+		return $this->id;
+	}
+
 }

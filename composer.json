@@ -1,7 +1,9 @@
 {
 	"name": "amosoft/php-resque-scheduler",
 	"type": "library",
-	"description": "php-resque-scheduler is a PHP port of resque-scheduler, which adds support for scheduling items in the future to Resque.",
+	"description": "php-resque-scheduler is a PHP port of resque-scheduler, which adds support for scheduling items to Resque.",
+	"keywords": ["job", "background", "redis", "resque", "schedule"],
+	"homepage": "http://www.github.com/amosoft/php-resque-scheduler/",
 	"authors": [
 		{
 			"name": "Chris Boulton",
@@ -17,6 +19,14 @@
 		{ "type": "git", "url": "https://github.com/chrisboulton/php-resque" }
 	],
 	"require": {
+		"php": ">=5.3.0",
+		"psr/log": "1.0.0",
 		"chrisboulton/php-resque": "dev-master"
-	}
+	},
+	"suggest": {
+		"ext-proctitle": "Allows php-resque to rename the title of UNIX processes to show the status of a worker."
+    },
+	"bin": [
+		"bin/resque-scheduler"
+	]
 }

@@ -105,10 +105,16 @@ class ResqueScheduler_Worker
 	{
 		$item = null;
 		while ($item = ResqueScheduler::nextItemForTimestamp($timestamp)) {
+
+            if (!$timestamp instanceof DateTime) {
+                $timestamp = DateTime::createFromFormat('U', $timestamp);
+            }
+            
 			$this->logger->log(
                     Psr\Log\LogLevel::NOTICE, 
-                    'Queueing {class} in {queue} [delayed]', 
-                    array('class' => $item['class'], 'queue' => $item['queue'])
+                    'Queueing {class} scheduled to {datetime} in {queue} queue with args {args}', 
+                    array('class' => $item['class'], 'queue' => $item['queue'], 
+                        'args' => json_encode($item['args']), 'datetime' => $timestamp->format('Y-m-d H:i:s'))
             );
 			
 			Resque_Event::trigger('beforeDelayedEnqueue', array(

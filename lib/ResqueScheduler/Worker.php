@@ -29,6 +29,11 @@ class ResqueScheduler_Worker
 	 */
 	private $id;
 
+	/**
+	 * @var boolean True if on the next iteration, the worker should shutdown.
+	 */
+	private $shutdown = false;
+
     /**
      * Instantiate a new worker
      */
@@ -60,8 +65,13 @@ class ResqueScheduler_Worker
         $this->interval = $interval;
 
 		$this->updateProcLine('Starting');
+        $this->registerSigHandlers();
 		
 		while (true) {
+			if($this->shutdown) {
+				break;
+			}
+            
 			$this->handleDelayedItems();
 			$this->sleep();
 		}
@@ -154,6 +164,37 @@ class ResqueScheduler_Worker
 	public function __toString()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * Register signal handlers that a worker should respond to.
+	 *
+	 * TERM: Shutdown after the current iteration finishes processing.
+	 * INT: Shutdown after the current iteration finishes processing.
+	 * QUIT: Shutdown after the current iteration finishes processing.
+	 */
+	private function registerSigHandlers()
+	{
+		if(!function_exists('pcntl_signal')) {
+			return;
+		}
+
+		declare(ticks = 1);
+		pcntl_signal(SIGTERM, array($this, 'shutdown'));
+		pcntl_signal(SIGINT, array($this, 'shutdown'));
+		pcntl_signal(SIGQUIT, array($this, 'shutdown'));
+		$this->logger->log(Psr\Log\LogLevel::DEBUG, 'Registered signals');
+	}
+
+	/**
+	 * Schedule the worker for shutdown. Will finish processing the current 
+     * iteration and when the timeout interval is reached, the worker will 
+     * shut down.
+	 */
+	public function shutdown()
+	{
+		$this->shutdown = true;
+		$this->logger->log(Psr\Log\LogLevel::NOTICE, 'Shutting down');
 	}
 
 }

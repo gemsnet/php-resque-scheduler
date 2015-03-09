@@ -23,10 +23,11 @@ class ResqueScheduler
 	 * @param string $queue The name of the queue to place the job in.
 	 * @param string $class The name of the class that contains the code to execute the job.
 	 * @param array $args Any optional arguments that should be passed when the job is executed.
+     * @return int Timestamp
 	 */
 	public static function enqueueIn($in, $queue, $class, array $args = array())
 	{
-		self::enqueueAt(time() + $in, $queue, $class, $args);
+		return self::enqueueAt(time() + $in, $queue, $class, $args);
 	}
 
 	/**
@@ -40,13 +41,14 @@ class ResqueScheduler
 	 * @param string $queue The name of the queue to place the job in.
 	 * @param string $class The name of the class that contains the code to execute the job.
 	 * @param array $args Any optional arguments that should be passed when the job is executed.
+     * @return int Timestamp
 	 */
 	public static function enqueueAt($at, $queue, $class, $args = array())
 	{
 		self::validateJob($class, $queue);
 
 		$job = self::jobToHash($queue, $class, $args);
-		self::delayedPush($at, $job);
+		$timestamp = self::delayedPush($at, $job);
 		
 		Resque_Event::trigger('afterSchedule', array(
 			'at'    => $at,
@@ -54,6 +56,8 @@ class ResqueScheduler
 			'class' => $class,
 			'args'  => $args,
 		));
+        
+        return $timestamp;
 	}
 
 	/**
@@ -61,14 +65,17 @@ class ResqueScheduler
 	 *
 	 * @param DateTime|int $timestamp Timestamp job is scheduled to be run at.
 	 * @param array $item Hash of item to be pushed to schedule.
+     * @return int Timestamp
 	 */
 	public static function delayedPush($timestamp, $item)
 	{
 		$timestamp = self::getTimestamp($timestamp);
 		$redis = Resque::redis();
+        
 		$redis->rpush('delayed:' . $timestamp, json_encode($item));
-
 		$redis->zadd('delayed_queue_schedule', $timestamp, $timestamp);
+        
+        return $timestamp;
 	}
 
 	/**

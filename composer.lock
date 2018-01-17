@@ -1,27 +1,27 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7e02c6fc29fcd3d1c9ce220b4f14961f",
+    "content-hash": "1227259913777d04fc0916b837953895",
     "packages": [
         {
             "name": "amosoft/php-resque",
-            "version": "dev-master",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AMOSoft/php-resque.git",
-                "reference": "be34d4830c3d45aba18e8198c72abdacf3a18bf7"
+                "reference": "8f07d6d0d6801f25de565656ee42b34efd991461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AMOSoft/php-resque/zipball/be34d4830c3d45aba18e8198c72abdacf3a18bf7",
-                "reference": "be34d4830c3d45aba18e8198c72abdacf3a18bf7",
+                "url": "https://api.github.com/repos/AMOSoft/php-resque/zipball/8f07d6d0d6801f25de565656ee42b34efd991461",
+                "reference": "8f07d6d0d6801f25de565656ee42b34efd991461",
                 "shasum": ""
             },
             "require": {
-                "colinmollenhour/credis": "~1.2",
+                "colinmollenhour/credis": "1.4",
                 "ext-pcntl": "*",
                 "php": ">=5.3.0",
                 "psr/log": "1.0.0"
@@ -60,20 +60,20 @@
                 "redis",
                 "resque"
             ],
-            "time": "2015-03-16 16:13:58"
+            "time": "2018-01-17T08:25:59+00:00"
         },
         {
             "name": "colinmollenhour/credis",
-            "version": "1.5",
+            "version": "1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/colinmollenhour/credis.git",
-                "reference": "7bd47b61fc3dad28aa881de45c71026256ad27cc"
+                "reference": "2079564c61cc49867eddc3cc918c711564164d65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/colinmollenhour/credis/zipball/7bd47b61fc3dad28aa881de45c71026256ad27cc",
-                "reference": "7bd47b61fc3dad28aa881de45c71026256ad27cc",
+                "url": "https://api.github.com/repos/colinmollenhour/credis/zipball/2079564c61cc49867eddc3cc918c711564164d65",
+                "reference": "2079564c61cc49867eddc3cc918c711564164d65",
                 "shasum": ""
             },
             "require": {
@@ -83,8 +83,7 @@
             "autoload": {
                 "classmap": [
                     "Client.php",
-                    "Cluster.php",
-                    "Sentinel.php"
+                    "Cluster.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -99,7 +98,7 @@
             ],
             "description": "Credis is a lightweight interface to the Redis key-value store which wraps the phpredis library when available for better performance.",
             "homepage": "https://github.com/colinmollenhour/credis",
-            "time": "2014-11-13 18:40:25"
+            "time": "2014-05-05T19:31:30+00:00"
         },
         {
             "name": "psr/log",
@@ -137,15 +136,13 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2012-12-21T11:40:51+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "amosoft/php-resque": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

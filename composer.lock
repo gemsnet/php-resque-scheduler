@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "amosoft/php-resque",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AMOSoft/php-resque.git",
-                "reference": "8f07d6d0d6801f25de565656ee42b34efd991461"
+                "reference": "911330230e834fe579c36d2cc125eeb46406b4ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AMOSoft/php-resque/zipball/8f07d6d0d6801f25de565656ee42b34efd991461",
-                "reference": "8f07d6d0d6801f25de565656ee42b34efd991461",
+                "url": "https://api.github.com/repos/AMOSoft/php-resque/zipball/911330230e834fe579c36d2cc125eeb46406b4ee",
+                "reference": "911330230e834fe579c36d2cc125eeb46406b4ee",
                 "shasum": ""
             },
             "require": {
-                "colinmollenhour/credis": "1.4",
+                "colinmollenhour/credis": "1.7",
                 "ext-pcntl": "*",
                 "php": ">=5.3.0",
                 "psr/log": "1.0.0"
@@ -60,30 +60,31 @@
                 "redis",
                 "resque"
             ],
-            "time": "2018-01-17T08:25:59+00:00"
+            "time": "2018-01-17T09:49:09+00:00"
         },
         {
             "name": "colinmollenhour/credis",
-            "version": "1.4",
+            "version": "1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/colinmollenhour/credis.git",
-                "reference": "2079564c61cc49867eddc3cc918c711564164d65"
+                "reference": "74b2b703da5c58dc07fb97e8954bc63280b469bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/colinmollenhour/credis/zipball/2079564c61cc49867eddc3cc918c711564164d65",
-                "reference": "2079564c61cc49867eddc3cc918c711564164d65",
+                "url": "https://api.github.com/repos/colinmollenhour/credis/zipball/74b2b703da5c58dc07fb97e8954bc63280b469bf",
+                "reference": "74b2b703da5c58dc07fb97e8954bc63280b469bf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "type": "library",
             "autoload": {
                 "classmap": [
                     "Client.php",
-                    "Cluster.php"
+                    "Cluster.php",
+                    "Sentinel.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -98,7 +99,7 @@
             ],
             "description": "Credis is a lightweight interface to the Redis key-value store which wraps the phpredis library when available for better performance.",
             "homepage": "https://github.com/colinmollenhour/credis",
-            "time": "2014-05-05T19:31:30+00:00"
+            "time": "2016-03-24T15:50:52+00:00"
         },
         {
             "name": "psr/log",

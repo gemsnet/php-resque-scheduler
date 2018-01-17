@@ -9,7 +9,7 @@
 */
 class ResqueScheduler
 {
-	const VERSION = "1.2.1";
+	const VERSION = "1.2.3";
 	
     const DEFAULT_INTERVAL = 5;
 

@@ -34,6 +34,11 @@ class ResqueScheduler_Worker
 	 */
 	private $shutdown = false;
 
+	/**
+	 * @var boolean Does the worker update the process title ?
+	 */
+	private $processUpdate = true;
+
     /**
      * Instantiate a new worker
      */
@@ -147,7 +152,7 @@ class ResqueScheduler_Worker
 	 */
 	private function updateProcLine($status)
 	{
-		if(function_exists('setproctitle')) {
+		if($this->processUpdate && function_exists('setproctitle')) {
 			setproctitle('resque-scheduler-' . ResqueScheduler::VERSION . ': ' . $status);
 		}
 	}
@@ -202,5 +207,14 @@ class ResqueScheduler_Worker
 		$this->shutdown = true;
 		$this->logger->log(Psr\Log\LogLevel::NOTICE, 'Shutting down');
 	}
-
+	
+	/**
+	 * Does the worker update the process title ?
+	 * 
+	 * @param bool $doUpdate
+	 */
+	public function setProcessUpdate($doUpdate = true)
+	{
+		$this->processUpdate = $doUpdate;
+	}
 }

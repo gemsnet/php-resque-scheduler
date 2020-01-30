@@ -1,5 +1,5 @@
 {
-	"name": "amosoft/php-resque-scheduler",
+	"name": "gemsnet/php-resque-scheduler",
 	"type": "library",
 	"description": "php-resque-scheduler is a PHP port of resque-scheduler, which adds support for scheduling items to Resque.",
 	"keywords": ["job", "background", "redis", "resque", "schedule"],
@@ -16,12 +16,12 @@
 		}
 	},
 	"repositories": [
-		{ "type": "git", "url": "https://github.com/chrisboulton/php-resque" }
+		{ "type": "git", "url": "https://github.com/gemsnet/php-resque" }
 	],
 	"require": {
 		"php": ">=5.3.0",
 		"psr/log": "1.0.0",
-		"amosoft/php-resque": "1.*"
+		"gemsnet/php-resque": "1.*"
 	},
 	"suggest": {
 		"ext-proctitle": "Allows php-resque to rename the title of UNIX processes to show the status of a worker."

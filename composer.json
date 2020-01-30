@@ -20,7 +20,7 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"psr/log": "1.0.0",
+		"psr/log": "1.0.*",
 		"gemsnet/php-resque": "1.*"
 	},
 	"suggest": {
